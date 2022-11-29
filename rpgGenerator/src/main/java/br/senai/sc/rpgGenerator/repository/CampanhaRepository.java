@@ -12,9 +12,9 @@ import java.util.List;
 @Repository
 public interface CampanhaRepository extends JpaRepository<Campanha, Long> {
 
-    Page<Campanha> findByUsuarioAndNomeContaining(Usuario usuario, String nome, Pageable pageable);
+    List<Campanha> findByUsuarioAndNomeContaining(Usuario usuario, String nome);
 
-    Page<Campanha> findByUsuario(Usuario usuario, Pageable pageable);
+    List<Campanha> findByUsuario(Usuario usuario);
 
     List<Campanha> findByUsuarioAndArquivada(Usuario usuario, Boolean arquivada);
 }

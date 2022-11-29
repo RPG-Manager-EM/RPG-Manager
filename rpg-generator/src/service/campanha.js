@@ -3,8 +3,9 @@ import axios from "./api";
 const map = "/campanha";
 
 class CampanhaService {
-    async getAll() {
-        return (await axios.get(map)).data;
+
+    async getPage(params) {
+        return (await axios.get(map + `/page`, { params: params })).data;
     }
 
     async getByAutor(email) {

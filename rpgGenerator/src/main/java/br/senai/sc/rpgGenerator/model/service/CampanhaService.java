@@ -36,12 +36,12 @@ public class CampanhaService {
         campanhaRepository.deleteById(aLong);
     }
 
-    public Page<Campanha> findPage(Usuario usuario, String nome, Pageable pageable) {
-        return campanhaRepository.findByUsuarioAndNomeContaining(usuario, nome, pageable);
+    public List<Campanha> findPage(Usuario usuario, String nome) {
+        return campanhaRepository.findByUsuarioAndNomeContaining(usuario, nome);
     }
 
-    public Page<Campanha> findPage(Usuario usuario, Pageable pageable) {
-        return campanhaRepository.findByUsuario(usuario, pageable);
+    public List<Campanha> findPage(Usuario usuario) {
+        return campanhaRepository.findByUsuario(usuario);
     }
 
     public List<Campanha> findByUsuarioAndArquivada(Usuario usuario, Boolean arquivada) {

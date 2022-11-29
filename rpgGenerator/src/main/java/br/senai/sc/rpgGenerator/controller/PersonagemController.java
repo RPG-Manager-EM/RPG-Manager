@@ -4,6 +4,7 @@ import br.senai.sc.rpgGenerator.dto.PersonagemDTO;
 import br.senai.sc.rpgGenerator.model.entities.Personagem;
 import br.senai.sc.rpgGenerator.model.entities.Usuario;
 import br.senai.sc.rpgGenerator.model.service.PersonagemService;
+import br.senai.sc.rpgGenerator.model.service.UsuarioService;
 import br.senai.sc.rpgGenerator.util.PersonagemUtil;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
@@ -27,6 +28,7 @@ import java.util.List;
 @RequestMapping("rpg_manager/personagem")
 public class PersonagemController {
     private PersonagemService personagemService;
+    private UsuarioService usuarioService;
 
     @GetMapping
     public ResponseEntity<List<Personagem>> findAll(){
@@ -40,6 +42,12 @@ public class PersonagemController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(personagemService.findById(id).get());
+    }
+
+    @GetMapping("/usuario/{usuario}")
+    public ResponseEntity<List<Personagem>> findByUsuario(@PathVariable(value = "usuario") Long usuarioId){
+        Usuario usuario = usuarioService.findById(usuarioId);
+        return ResponseEntity.status(HttpStatus.OK).body(personagemService.findByUsuario(usuario));
     }
 
     @GetMapping("/page")
