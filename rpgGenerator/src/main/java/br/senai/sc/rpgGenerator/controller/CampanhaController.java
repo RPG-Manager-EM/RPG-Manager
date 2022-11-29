@@ -63,12 +63,13 @@ public class CampanhaController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<Page<Campanha>> findPage(@PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
-                                                   @RequestParam Usuario usuario, @RequestParam(required = false) String nome) {
+    public ResponseEntity<List<Campanha>> findPage(@RequestParam Long usuarioId, @RequestParam(required = false) String nome) {
+
+        Usuario usuario = usuarioService.findById(usuarioId);
         if (nome != null && !nome.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.OK).body(campanhaService.findPage(usuario, nome, pageable));
+            return ResponseEntity.status(HttpStatus.OK).body(campanhaService.findPage(usuario, nome));
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(campanhaService.findPage(usuario, pageable));
+            return ResponseEntity.status(HttpStatus.OK).body(campanhaService.findPage(usuario));
         }
     }
 

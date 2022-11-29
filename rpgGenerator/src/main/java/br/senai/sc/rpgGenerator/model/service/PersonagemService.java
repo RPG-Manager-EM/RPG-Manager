@@ -45,4 +45,8 @@ public class PersonagemService {
     public Page<Personagem> findPage(Usuario usuario, Pageable pageable) {
         return personagemRepository.findByUsuario(usuario, pageable);
     }
+
+    public List<Personagem> findByUsuario(Usuario usuario) {
+        return personagemRepository.findByUsuario(usuario);
+    }
 }

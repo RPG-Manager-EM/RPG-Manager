@@ -15,6 +15,11 @@ class PersonagemService {
         const data = await axios.post(map, formData, { headers: { "Content-Type": "multipart/form-data" } });
         return data.data;
     }
+
+    async getByUsuario(usuario) {
+        const data = await axios.get(map + `/usuario/${usuario}`);
+        return data.data;
+    }
 }
 
 export default new PersonagemService();
