@@ -41,6 +41,7 @@ const CriarPersonagem = () => {
         setNivel("");
         setFileList([]);
         setMapAbleFileList([]);
+        inputFile.current.value = "";
     }
 
     const onInputFileClick = () => {
