@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -29,12 +30,12 @@ public class PersonagemController {
     private PersonagemService personagemService;
 
     @GetMapping
-    public ResponseEntity<List<Personagem>> findAll(){
+    public ResponseEntity<List<Personagem>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(personagemService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> findById(@PathVariable(value = "id") Long id){
+    public ResponseEntity<Object> findById(@PathVariable(value = "id") Long id) {
         if (!personagemService.existsById(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi possível encontrar o personagem!");
         }
@@ -45,7 +46,7 @@ public class PersonagemController {
     @GetMapping("/page")
     public ResponseEntity<Page<Personagem>> findPage(@PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
                                                      @RequestParam Usuario usuario, @RequestParam(required = false) String nome) {
-        if(nome != null && !nome.isEmpty()) {
+        if (nome != null && !nome.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(personagemService.findPage(usuario, nome, pageable));
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(personagemService.findPage(usuario, pageable));
@@ -53,7 +54,9 @@ public class PersonagemController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> save(@RequestParam("personagem") String personagemJson, @RequestParam("arquivos") List<MultipartFile> arquivos){
+    public ResponseEntity<Object> save(@RequestParam("personagem") String personagemJson, @RequestParam("arquivos") MultipartFile[] arquivos) {
+        System.out.println("personagem: " + personagemJson);
+        System.out.println("arquivos" + Arrays.toString(arquivos));
         PersonagemUtil personagemUtil = new PersonagemUtil();
         Personagem personagem = personagemUtil.convertJsonToModel(personagemJson);
         personagem.setArquivos(arquivos);
@@ -61,7 +64,7 @@ public class PersonagemController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> update(@PathVariable(value = "id") Long id, @RequestBody @Valid PersonagemDTO personagemDTO){
+    public ResponseEntity<Object> update(@PathVariable(value = "id") Long id, @RequestBody @Valid PersonagemDTO personagemDTO) {
         if (!personagemService.existsById(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Este personagem não existe.");
         }
@@ -74,8 +77,8 @@ public class PersonagemController {
 
     @Transactional
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteById(@PathVariable(value = "id") Long id){
-        if(!personagemService.existsById(id)){
+    public ResponseEntity<Object> deleteById(@PathVariable(value = "id") Long id) {
+        if (!personagemService.existsById(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi possível encontrar o personagem!");
         }
 

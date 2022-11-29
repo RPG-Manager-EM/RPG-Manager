@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
-import { Box, Button, Divider, Typography } from '@mui/material'
+import { Box, Button, Divider, IconButton, Typography } from '@mui/material'
+
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import Sidebar from '../../components/sidebar/sidebar'
 import UploadArquivoCinza from "../../img/uploadArquivoCinza.png"
+
+import PersonagemService from "../../service/personagem";
 
 const CriarPersonagem = () => {
     const [aba, setAba] = useState("jogador");
@@ -12,10 +16,22 @@ const CriarPersonagem = () => {
     const [vida, setVida] = useState("");
     const [mana, setMana] = useState("");
     const [nivel, setNivel] = useState("");
-    const [imagem, setImagem] = useState(UploadArquivoCinza);
+    const [fileList, setFileList] = useState([]);
+    const [mapAbleFileList, setMapAbleFileList] = useState([]);
+
+    const inputFile = useRef(null);
 
     const savePersonagem = () => {
-        
+        console.log("nome: ", nome);
+        console.log("vida: ", vida);
+        console.log("mana: ", mana);
+        console.log("nivel: ", nivel);
+        console.log("fileList: ", fileList);
+        const idUser = JSON.parse(localStorage.getItem("userId"));
+        console.log("iduser: ", idUser)
+        PersonagemService.post({ nome, vida, mana, nivel, usuario: { id: idUser } }, fileList).then((response) => {
+            console.log(response);
+        })
     }
 
     const clearData = () => {
@@ -23,7 +39,27 @@ const CriarPersonagem = () => {
         setVida("");
         setMana("");
         setNivel("");
-        setImagem(UploadArquivoCinza);
+        setFileList([]);
+        setMapAbleFileList([]);
+    }
+
+    const onInputFileClick = () => {
+        inputFile.current.click();
+    }
+
+    const onFilesSelect = () => {
+        for (let file of inputFile.current.files) {
+            setFileList([...fileList, file]);
+        }
+    }
+
+    useEffect(() => {
+        setMapAbleFileList(Array.from(fileList));
+    }, [fileList]);
+
+    const deleteFile = (desiredIndex) => {
+        setMapAbleFileList(mapAbleFileList.filter((_, index) => index !== desiredIndex));
+        setFileList(fileList.filter((_, index) => index !== desiredIndex));
     }
 
     return (
@@ -36,7 +72,6 @@ const CriarPersonagem = () => {
 
                 <Box className='flex w-full pt-4'>
                     <Box className='w-2/4'>
-
                         <label>
                             Nome
                             <Box value={nome} onChange={(e) => setNome(e.target.value)} component="input" className='w-full h-12 border-2 border-l-4 border-gray-300 rounded p-2 outline-none' sx={{ borderLeftColor: "secondary.main" }} />
@@ -55,20 +90,38 @@ const CriarPersonagem = () => {
                             <Box value={nivel} onChange={(e) => setNivel(e.target.value)} component="input" className='w-full h-12 border-2 border-l-4 border-gray-300 rounded p-2 outline-none' sx={{ borderLeftColor: "secondary.main" }} />
                         </label>
                     </Box>
-                    <Box className='flex justify-center items-center w-2/4'>
-                        <Box className='w-3/4'>
-
-                            <label className='w-full'>
-                                Arquivo
-                                <input id='input-file' type="file" hidden
-                                    onChange={() => {
-                                        setImagem(URL.createObjectURL(document.getElementById('input-file').files[0]));
-                                    }} />
-                                <Box className='flex justify-center items-center w-full border rounded'>
-                                    <img src={imagem} className='w-10/12 h-11/12 ' />
-                                </Box>
-                            </label>
+                    <Box className='flex flex-col items-center justify-center items-center w-2/4'>
+                        <Box className='w-3/4 flex justify-center'>
+                            <input id='input-file' type="file" hidden onChange={onFilesSelect} ref={inputFile} />
+                            {fileList.length > 0
+                                ?
+                                <table className='table-auto'>
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Remover</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {mapAbleFileList?.map((file, index) => {
+                                            return (
+                                                <tr key={index}>
+                                                    <td>{file.name}</td>
+                                                    <td>
+                                                        <IconButton onClick={() => deleteFile(index)}>
+                                                            <DeleteIcon color='secondary' />
+                                                        </IconButton>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })}
+                                    </tbody>
+                                </table>
+                                :
+                                null
+                            }
                         </Box>
+                        <Button variant='outlined' color='primary' onClick={() => { onInputFileClick() }}>Adicionar Arquivo</Button>
                     </Box>
                 </Box>
                 <Box className='w-full flex justify-end mt-10'>

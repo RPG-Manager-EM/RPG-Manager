@@ -32,7 +32,7 @@ public class Personagem {
     @Column(nullable = false)
     private Integer nivel;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "personagem_id")
     private List<Arquivo> arquivos;
 
@@ -44,7 +44,7 @@ public class Personagem {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    public void setArquivos(List<MultipartFile> files) {
+    public void setArquivos(MultipartFile[] files) {
         List<Arquivo> listaArquivos = new ArrayList<>();
         try {
             for (MultipartFile file : files) {
