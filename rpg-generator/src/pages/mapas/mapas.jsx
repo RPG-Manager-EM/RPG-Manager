@@ -14,6 +14,9 @@ const Mapas = () => {
     const [img, setImg] = useState(UploadArquivoCinza);
 
     const [mapas, setMapas] = useState([]);
+    const [verDetalhes, setVerDetalhes] = useState(false);
+    const [imgDetalhes, setImgDetalhes] = useState('');
+    const [nomeMapaDetalhes, setNomeMapaDetalhes] = useState('');
 
     useEffect(() => {
         getMapas();
@@ -48,6 +51,16 @@ const Mapas = () => {
         })
     }
 
+    const fecharDetalhes = () => {
+        setVerDetalhes(false);
+    }
+
+    const abrirMapa = (index) => {
+        let imagem = "data:" + mapas[index].arquivo.tipo + ";base64," + mapas[index].arquivo.dados;
+        setImgDetalhes(imagem);
+        setNomeMapaDetalhes(mapas[index].nome);
+    }
+
     return (
         <Sidebar aba={aba} setAba={setAba}>
             <Box p='2rem 3rem'>
@@ -61,7 +74,7 @@ const Mapas = () => {
                         let imagem = "data:" + mapa.arquivo.tipo + ";base64," + mapa.arquivo.dados;
 
                         return (
-                            <Paper key={index} className='flex items-center gap-16 w-full p-4 cursor-pointer transition duration-300 hover:opacity-95 hover:transition hover:duration-300 mb-4' sx={{ borderLeft: '10px solid', borderColor: 'secondary.main' }}>
+                            <Paper onClick={() => { setVerDetalhes(true); abrirMapa(index); }} key={index} className='flex items-center gap-16 w-full p-4 cursor-pointer transition duration-300 hover:opacity-95 hover:transition hover:duration-300 mb-4' sx={{ borderLeft: '10px solid', borderColor: 'secondary.main' }}>
                                 <Box className='w-20 h-20 flex items-center'>
                                     <img className="w-full" src={imagem} alt="Imagem" />
                                 </Box>
@@ -90,6 +103,14 @@ const Mapas = () => {
                     </DialogActions>
                 </Dialog>
 
+                <Dialog open={verDetalhes} onClose={fecharDetalhes}>
+                    <DialogTitle sx={{ backgroundColor: "background.default" }} color='text.secondary'>{nomeMapaDetalhes}</DialogTitle>
+                    <DialogContent sx={{ backgroundColor: "background.default" }}>
+                        <Box sx={{minWidth: '34rem', minHeight: '20rem'}} className='flex justify-center border rounded'>
+                            <img src={imgDetalhes} alt="" />
+                        </Box>
+                    </DialogContent>
+                </Dialog>
             </Box>
         </Sidebar>
     )

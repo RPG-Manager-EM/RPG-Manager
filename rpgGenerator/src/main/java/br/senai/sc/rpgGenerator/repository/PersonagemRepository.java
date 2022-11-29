@@ -1,5 +1,6 @@
 package br.senai.sc.rpgGenerator.repository;
 
+import br.senai.sc.rpgGenerator.model.entities.Campanha;
 import br.senai.sc.rpgGenerator.model.entities.Personagem;
 import br.senai.sc.rpgGenerator.model.entities.Usuario;
 import org.springframework.data.domain.Page;
@@ -16,4 +17,6 @@ public interface PersonagemRepository extends JpaRepository<Personagem, Long> {
     Page<Personagem> findByUsuario(Usuario usuario, Pageable pageable);
 
     List<Personagem> findByUsuario(Usuario usuario);
+
+    List<Personagem> findByUsuarioAndCampanha(Usuario usuario, Campanha o);
 }

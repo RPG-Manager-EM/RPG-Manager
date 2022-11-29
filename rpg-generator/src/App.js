@@ -17,6 +17,7 @@ import CriarCampanha from './pages/criar-campanha/criar-campanha';
 import Mapas from './pages/mapas/mapas';
 import CampanhasArquivadas from './pages/campanhas-arquivadas/campanhas-arquivadas';
 import CriarPersonagem from './pages/criar-personagem/criar-personagem';
+import DetalhesPersonagem from './pages/detalhes-personagem/detalhes-personagem';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
           <Route path='/mapas' element={<Mapas></Mapas>}></Route>
           <Route path='/campanhas-arquivadas' element={<CampanhasArquivadas></CampanhasArquivadas>}></Route>
           <Route path='/criar-personagem' element={<CriarPersonagem></CriarPersonagem>}></Route>
+          <Route path='/detalhes-personagem' element={<DetalhesPersonagem></DetalhesPersonagem>}></Route>
         </Routes>
       </Router>
     </ToggleColorMode>

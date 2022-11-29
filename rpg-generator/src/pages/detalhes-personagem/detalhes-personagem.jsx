@@ -9,7 +9,7 @@ import UploadArquivoCinza from "../../img/uploadArquivoCinza.png"
 
 import PersonagemService from "../../service/personagem";
 
-const CriarPersonagem = () => {
+const DetalhesPersonagem = () => {
     const [aba, setAba] = useState("jogador");
 
     const [nome, setNome] = useState("");
@@ -66,7 +66,7 @@ const CriarPersonagem = () => {
         <Sidebar aba={aba} setAba={setAba}>
             <Box p='2rem 3rem'>
                 <Box className='flex gap-12'>
-                    <Typography variant='h5' color='text.secondary'>Criar Personagem</Typography>
+                    <Typography variant='h5' color='text.secondary'>Editar Personagem</Typography>
                 </Box>
                 <Divider sx={{ borderWidth: '1px' }} />
 
@@ -133,4 +133,4 @@ const CriarPersonagem = () => {
     )
 }
 
-export default CriarPersonagem
+export default DetalhesPersonagem

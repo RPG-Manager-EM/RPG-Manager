@@ -1,5 +1,6 @@
 package br.senai.sc.rpgGenerator.model.service;
 
+import br.senai.sc.rpgGenerator.model.entities.Campanha;
 import br.senai.sc.rpgGenerator.model.entities.Personagem;
 import br.senai.sc.rpgGenerator.model.entities.Usuario;
 import br.senai.sc.rpgGenerator.repository.PersonagemRepository;
@@ -48,5 +49,9 @@ public class PersonagemService {
 
     public List<Personagem> findByUsuario(Usuario usuario) {
         return personagemRepository.findByUsuario(usuario);
+    }
+
+    public List<Personagem> findByUsuarioAndCampanha(Usuario usuario, Campanha o) {
+        return personagemRepository.findByUsuarioAndCampanha(usuario, o);
     }
 }

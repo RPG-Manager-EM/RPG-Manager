@@ -51,6 +51,12 @@ public class PersonagemController {
         return ResponseEntity.status(HttpStatus.OK).body(personagemService.findByUsuario(usuario));
     }
 
+    @GetMapping("/campanha-null/{usuario}")
+    public ResponseEntity<List<Personagem>> findByUsuarioAndCampanhaNull(@PathVariable(value = "usuario") Long usuarioId){
+        Usuario usuario = usuarioService.findById(usuarioId);
+        return ResponseEntity.status(HttpStatus.OK).body(personagemService.findByUsuarioAndCampanha(usuario, null));
+    }
+
     @GetMapping("/page")
     public ResponseEntity<Page<Personagem>> findPage(@PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
                                                      @RequestParam Usuario usuario, @RequestParam(required = false) String nome) {

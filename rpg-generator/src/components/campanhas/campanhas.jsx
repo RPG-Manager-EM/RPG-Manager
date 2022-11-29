@@ -23,7 +23,8 @@ const Campanhas = () => {
             setCampanhas(response);
         });
 
-        PersonagemService.getByUsuario(parseInt(localStorage.getItem("userId"))).then((response) => {
+        PersonagemService.getByUsuarioAndCampanhaNull(parseInt(localStorage.getItem("userId"))).then((response) => {
+            console.log(response);
             setListaPersonagens(response);
         });
     }, []);
@@ -75,7 +76,7 @@ const Campanhas = () => {
                                     onChange={(e) => { setPersonagem(e) }}
                                 >
                                     {listaPersonagens.map((persona) => (
-                                        <MenuItem sx={{ color: 'white' }} value={persona}>{persona.nome}</MenuItem>
+                                        <MenuItem key={persona.id} sx={{ color: 'white' }} value={persona}>{persona.nome}</MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>

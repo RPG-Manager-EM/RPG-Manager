@@ -16,6 +16,11 @@ class PersonagemService {
         return data.data;
     }
 
+    async getByUsuarioAndCampanhaNull(usuario) {
+        const data = await axios.get(map + `/campanha-null/${usuario}`);
+        return data.data;
+    }
+
     async getByUsuario(usuario) {
         const data = await axios.get(map + `/usuario/${usuario}`);
         return data.data;
