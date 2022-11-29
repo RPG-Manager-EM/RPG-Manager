@@ -96,19 +96,19 @@ const CriarPersonagem = () => {
                             <input id='input-file' type="file" hidden onChange={onFilesSelect} ref={inputFile} />
                             {fileList.length > 0
                                 ?
-                                <table className='table-auto'>
-                                    <thead>
+                                <table className='table-auto border-collapse border border-slate-500 mb-8'>
+                                    <thead >
                                         <tr>
-                                            <th>Nome</th>
-                                            <th>Remover</th>
+                                            <th className='border border-slate-600 px-4 py-2'>Nome</th>
+                                            <th className='border border-slate-600 px-4 py-2'>Remover</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {mapAbleFileList?.map((file, index) => {
                                             return (
                                                 <tr key={index}>
-                                                    <td>{file.name}</td>
-                                                    <td>
+                                                    <td className='border border-slate-700 px-4 py-2 text-center'>{file.name}</td>
+                                                    <td className='border border-slate-700 px-4 py-2 text-center'>
                                                         <IconButton onClick={() => deleteFile(index)}>
                                                             <DeleteIcon color='secondary' />
                                                         </IconButton>
@@ -128,7 +128,6 @@ const CriarPersonagem = () => {
                 <Box className='w-full flex justify-end mt-10'>
                     <Button onClick={() => { savePersonagem(); clearData(); }} color="secondary" variant="contained" disableElevation>Criar</Button>
                 </Box>
-
             </Box>
         </Sidebar>
     )
