@@ -84,7 +84,10 @@ const CampanhasMestre = () => {
         <DialogTitle sx={{ backgroundColor: "background.default" }} color='text.secondary'>{campanhaSelecionada?.nome} #{campanhaSelecionada?.id}</DialogTitle>
         <DialogContent sx={{ backgroundColor: "background.default" }}>
           <DialogContentText color="text.primary">
-            Selecione o que irá acontecer com a campanha
+            Descrição: {campanhaSelecionada?.descricao}
+            <br />
+            <br />
+            Selecione o que irá acontecer com a campanha:
           </DialogContentText>
           <Box className='w-full mt-4'>
             <input id='data-nova-sessao' value={novaSessao} onChange={(e) => setNovaSessao(e.target.value)} type="date" className='w-full p-2 border rounded' />
