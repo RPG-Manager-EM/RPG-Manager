@@ -4,8 +4,6 @@ import br.senai.sc.rpgGenerator.model.entities.Campanha;
 import br.senai.sc.rpgGenerator.model.entities.Usuario;
 import br.senai.sc.rpgGenerator.repository.CampanhaRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,5 +44,13 @@ public class CampanhaService {
 
     public List<Campanha> findByUsuarioAndArquivada(Usuario usuario, Boolean arquivada) {
         return campanhaRepository.findByUsuarioAndArquivada(usuario, arquivada);
+    }
+
+    public boolean existsByNomeAndSenha(String nome, String senha) {
+        return campanhaRepository.existsByNomeAndSenha(nome, senha);
+    }
+
+    public Object findByNomeAndSenha(String nome, String senha) {
+        return campanhaRepository.findByNomeAndSenha(nome, senha);
     }
 }

@@ -44,16 +44,12 @@ public class Campanha {
     private Imagem imagem;
 
     @OneToMany
-    @JoinColumn(name = "personagem_id")
-    private List<Personagem> personagem;
-
-    @OneToMany
     @JoinColumn(name = "sessao_id")
     private List<Sessao> sessao;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "mapa_id")
-    private List<Mapa> mapa;
+    private Mapa mapa;
 
     public void setImagem(MultipartFile file) {
         System.out.println("file: " + file);

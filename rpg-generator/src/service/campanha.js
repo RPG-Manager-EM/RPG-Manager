@@ -8,12 +8,16 @@ class CampanhaService {
         return (await axios.get(map + `/page`, { params: params })).data;
     }
 
-    async getByAutor(email) {
-        return (await axios.get(map + "/usuario/" + email)).data;
+    async getByAutor(id) {
+        return (await axios.get(map + "/usuario/" + id)).data;
     }
 
     async getAllArquivadas(id) {
         return (await axios.get(map + "/usuario/" + id + "/arquivadas")).data;
+    }
+
+    async getByNomeAndSenha(nome, senha) {
+        return (await axios.get(map + "/nome/" + nome + "/" + senha)).data;
     }
 
     async post(dados) {
@@ -41,6 +45,10 @@ class CampanhaService {
         formData.append("mapa", campanha.mapa.id);
 
         return (await axios.put(map + "/" + campanha.id, formData, { headers: { "Content-Type": "multipart/form-data" } })).data;
+    }
+
+    async updatePersonagem(personagem, id) {
+        return (await axios.put(map + "/personagem/" + id + "/" + personagem)).data;
     }
 }
 

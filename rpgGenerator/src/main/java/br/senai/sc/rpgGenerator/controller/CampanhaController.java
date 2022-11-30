@@ -1,15 +1,10 @@
 package br.senai.sc.rpgGenerator.controller;
 
 import br.senai.sc.rpgGenerator.dto.CampanhaDTO;
-import br.senai.sc.rpgGenerator.model.entities.Campanha;
-import br.senai.sc.rpgGenerator.model.entities.Imagem;
-import br.senai.sc.rpgGenerator.model.entities.Mapa;
-import br.senai.sc.rpgGenerator.model.entities.Usuario;
-import br.senai.sc.rpgGenerator.model.service.CampanhaService;
-import br.senai.sc.rpgGenerator.model.service.ImagemService;
-import br.senai.sc.rpgGenerator.model.service.MapaService;
-import br.senai.sc.rpgGenerator.model.service.UsuarioService;
+import br.senai.sc.rpgGenerator.model.entities.*;
+import br.senai.sc.rpgGenerator.model.service.*;
 import br.senai.sc.rpgGenerator.util.CampanhaUtil;
+import br.senai.sc.rpgGenerator.util.MapaUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -35,6 +30,7 @@ public class CampanhaController {
     private MapaService mapaService;
     private UsuarioService usuarioService;
     private ImagemService imagemService;
+    private PersonagemService personagemService;
 
     @GetMapping
     public ResponseEntity<List<Campanha>> findAll() {
@@ -48,6 +44,15 @@ public class CampanhaController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(campanhaService.findById(id).get());
+    }
+
+    @GetMapping("/nome/{nome}/{senha}")
+    public ResponseEntity<Object> findByNomeAndSenha(@PathVariable(value = "nome") String nome, @PathVariable(value = "senha") String senha) {
+        if (!campanhaService.existsByNomeAndSenha(nome, senha)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi possível encontrar a campanha!");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(campanhaService.findByNomeAndSenha(nome, senha));
     }
 
     @GetMapping("/usuario/{id}")
@@ -76,14 +81,13 @@ public class CampanhaController {
     @PostMapping
     public ResponseEntity<Object> save(@RequestParam("campanha") String campanhaJson,
                                        @RequestParam("logo") MultipartFile file,
-                                       @RequestParam("mapa") List<Mapa> mapas) {
-        System.out.println(campanhaJson);
-        System.out.println(file);
+                                       @RequestParam("mapa") String id) {
+        Optional<Mapa> mapa = mapaService.findById(Long.parseLong(id));
 
         CampanhaUtil campanhaUtil = new CampanhaUtil();
         Campanha campanha = campanhaUtil.convertJsonToModel(campanhaJson);
         campanha.setImagem(file);
-        campanha.setMapa(mapas);
+        campanha.setMapa(mapa.get());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(campanhaService.save(campanha));
     }
@@ -92,7 +96,7 @@ public class CampanhaController {
     public ResponseEntity<Object> update(@PathVariable(value = "id") Long id,
                                          @RequestParam("campanha") String campanhaJson,
                                          @RequestParam("logo") String idLogo,
-                                         @RequestParam("mapa") List<Mapa> mapas) {
+                                         @RequestParam("mapa") Mapa mapa) {
         System.out.println("chegou aq");
         if (!campanhaService.existsById(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Esta campanha não existe.");
@@ -108,10 +112,20 @@ public class CampanhaController {
         Optional<Imagem> imagem = imagemService.findById(Long.parseLong(idLogo));
 
         campanha.setImagemExistente(imagem.get());
-        campanha.setMapa(mapas);
+        campanha.setMapa(mapa);
         campanha.setId(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(campanhaService.save(campanha));
+    }
+
+    @PutMapping("/personagem/{id}/{personagemId}")
+    public ResponseEntity<Object> addPersonagem(@PathVariable(value = "id") Long id,
+                                                @PathVariable(value = "personagemId") Long personagemId) {
+        Personagem personagem = personagemService.findById(personagemId).get();
+        Campanha campanha = campanhaService.findById(id).get();
+        personagem.setCampanha(campanha);
+
+        return ResponseEntity.status(HttpStatus.OK).body(personagemService.save(personagem));
     }
 
     @Transactional

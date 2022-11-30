@@ -6,7 +6,7 @@ import Campanha from '../campanha/campanha'
 import CampanhaService from '../../service/campanha'
 import PersonagemService from '../../service/personagem';
 
-const Campanhas = () => {
+const Campanhas = (props) => {
     const [campanhas, setCampanhas] = useState([]);
     const [nome, setNome] = useState("");
     const [senha, setSenha] = useState("");
@@ -19,13 +19,11 @@ const Campanhas = () => {
         let params = {};
         params.usuarioId = parseInt(localStorage.getItem("userId"));
 
-        CampanhaService.getPage(params).then((response) => {
-            setCampanhas(response);
-        });
-
         PersonagemService.getByUsuarioAndCampanhaNull(parseInt(localStorage.getItem("userId"))).then((response) => {
-            console.log(response);
             setListaPersonagens(response);
+            if (response.length > 0) {
+                setPersonagem(response[0]);
+            }
         });
     }, []);
 
@@ -38,7 +36,17 @@ const Campanhas = () => {
     };
 
     const entrarEmCampanha = () => {
-
+        if (nome != "" && senha != "") {
+            try {
+                CampanhaService.getByNomeAndSenha(nome, senha).then((e) => {
+                    CampanhaService.updatePersonagem(personagem.id, e.id).then(() => {
+                        setOpenDialogCampanha(false);
+                    })
+                })
+            } catch(error) {
+                console.log("erro - "+  error)
+            }
+        }
     }
 
     return (
@@ -73,7 +81,7 @@ const Campanhas = () => {
                                     id="demo-simple-select"
                                     value={personagem}
                                     label="Personagem"
-                                    onChange={(e) => { setPersonagem(e) }}
+                                    onChange={(e) => { setPersonagem(e.target.value) }}
                                 >
                                     {listaPersonagens.map((persona) => (
                                         <MenuItem key={persona.id} sx={{ color: 'white' }} value={persona}>{persona.nome}</MenuItem>

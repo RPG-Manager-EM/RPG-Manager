@@ -65,11 +65,14 @@ const CampanhasMestre = () => {
           (campanhas?.map((campanha, index) => {
             return (
               <Paper key={index} onClick={() => handleClickOpen(campanha)} className='grid grid-cols-4 gap-6 items-center p-4 cursor-pointer transition duration-300 hover:opacity-95 hover:transition hover:duration-300 mb-4' sx={{ borderLeft: '10px solid', borderColor: 'secondary.main' }}>
-                <Box className='flex items-center w-12 h-12'>
-                  <img className="w-full h-full" src={"data:" + campanha.mapa.arquivo.tipo + ";base64," + campanha.mapa.arquivo.dados} alt="Campanha imagem" />
-                </Box>
+                {
+                  campanha.mapa != null &&
+                  <Box className='flex items-center w-12 h-12'>
+                    <img className="w-full h-full" src={"data:" + campanha.mapa.arquivo.tipo + ";base64," + campanha.mapa.arquivo.dados} alt="Campanha imagem" />
+                  </Box>
+                }
                 <Typography fontSize='22px' color='text.white'>{campanha.nome}</Typography>
-                <Typography fontSize='22px' color='text.white'>Jogadores: {campanha.personagem.length}</Typography>
+                {/* <Typography fontSize='22px' color='text.white'>Jogadores: {campanha.personagem.length}</Typography> */}
                 <Typography fontSize='22px' color='text.white'>Prox. Sessão: {campanha.proxima_sessao ? getNovaDataSessao(campanha.proxima_sessao.slice(0, 10).replaceAll("-", "/")) : " A  definir"}</Typography>
               </Paper>
             )

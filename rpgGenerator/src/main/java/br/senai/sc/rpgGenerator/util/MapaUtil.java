@@ -25,4 +25,12 @@ public class MapaUtil {
     public Mapa convertoDtoToModel(@Valid MapaDTO mapaDTO) {
         return this.objectMapper.convertValue(mapaDTO, Mapa.class);
     }
+
+    public Mapa convertJsonToModelDirect(String mapaJson) {
+        try {
+            return this.objectMapper.readValue(mapaJson, Mapa.class);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
