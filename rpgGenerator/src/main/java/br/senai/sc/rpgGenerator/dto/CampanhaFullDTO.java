@@ -20,6 +20,5 @@ public class CampanhaFullDTO {
     private Boolean arquivada;
     private String senha;
     private Usuario usuario;
-    private List<Personagem> personagem;
     private List<Sessao> sessao;
 }

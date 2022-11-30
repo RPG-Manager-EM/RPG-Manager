@@ -31,6 +31,7 @@ const CampanhasMestre = () => {
   }
 
   const arquivarCampanha = (campanha) => {
+    console.log("campanha a ser arquivada ", campanha)
     campanha.arquivada = true;
     CampanhaService.put(campanha).then((response) => {
       console.log(response);

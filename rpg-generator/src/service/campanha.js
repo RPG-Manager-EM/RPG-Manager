@@ -37,7 +37,6 @@ class CampanhaService {
             descricao: campanha.descricao,
             arquivada: campanha.arquivada,
             usuario: campanha.usuario,
-            personagem: campanha.personagem,
             sessao: campanha.sessao,
             senha: campanha.senha
         }));
