@@ -4,8 +4,6 @@ import br.senai.sc.rpgGenerator.dto.CampanhaDTO;
 import br.senai.sc.rpgGenerator.dto.CampanhaFullDTO;
 import br.senai.sc.rpgGenerator.model.entities.Campanha;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
 

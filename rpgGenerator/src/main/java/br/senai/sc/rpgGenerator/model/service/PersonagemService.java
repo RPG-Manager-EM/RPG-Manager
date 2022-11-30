@@ -8,9 +8,6 @@ import lombok.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,5 +50,13 @@ public class PersonagemService {
 
     public List<Personagem> findByUsuarioAndCampanha(Usuario usuario, Campanha o) {
         return personagemRepository.findByUsuarioAndCampanha(usuario, o);
+    }
+
+    public List<Personagem> findByCampanha(Campanha campanha) {
+        return personagemRepository.findByCampanha(campanha);
+    }
+
+    public Personagem findByCampanhaAndUsuario(Campanha campanha, Usuario usuario) {
+        return personagemRepository.findByCampanhaAndUsuario(campanha, usuario);
     }
 }

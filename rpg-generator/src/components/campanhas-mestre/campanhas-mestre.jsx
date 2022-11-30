@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Box, Button, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Paper } from '@mui/material'
 
 import CampanhaService from '../../service/campanha'
+import PersonagemService from '../../service/personagem';
 
 const CampanhasMestre = () => {
   const [open, setOpen] = useState(false);
@@ -20,8 +21,16 @@ const CampanhasMestre = () => {
 
   const getCampanhas = () => {
     CampanhaService.getByAutor(JSON.parse(localStorage.getItem("userId"))).then((response) => {
-      console.log(response);
-      setCampanhas(response)
+      for (let i = 0; i < response.length; i++) {
+        PersonagemService.getByCampanha(response[i].id).then((e) => {
+          response[i].jogadores = e.length;
+          if (response.length - 1 == i) {
+            setTimeout(() => {
+              setCampanhas(response);
+            }, 10);
+          }
+        })
+      }
     })
   }
 
@@ -72,7 +81,7 @@ const CampanhasMestre = () => {
                   </Box>
                 }
                 <Typography fontSize='22px' color='text.white'>{campanha.nome}</Typography>
-                {/* <Typography fontSize='22px' color='text.white'>Jogadores: {campanha.personagem.length}</Typography> */}
+                <Typography fontSize='22px' color='text.white'>Jogadores: {campanha.jogadores}</Typography>
                 <Typography fontSize='22px' color='text.white'>Prox. Sessão: {campanha.proxima_sessao ? getNovaDataSessao(campanha.proxima_sessao.slice(0, 10).replaceAll("-", "/")) : " A  definir"}</Typography>
               </Paper>
             )

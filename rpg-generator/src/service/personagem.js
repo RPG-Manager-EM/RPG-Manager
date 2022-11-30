@@ -21,6 +21,14 @@ class PersonagemService {
         return data.data;
     }
 
+    async getByCampanha(id) {
+        return (await axios.get(map + `/campanha/${id}`)).data;
+    }
+
+    async getByCampanhaAndUsuario(id, usuario) {
+        return (await axios.get(map + `/campanha/usuario/${id}/${usuario}`)).data;
+    }
+
     async getByUsuario(usuario) {
         const data = await axios.get(map + `/usuario/${usuario}`);
         return data.data;

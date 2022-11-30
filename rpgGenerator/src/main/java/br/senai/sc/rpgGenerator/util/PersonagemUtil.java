@@ -3,8 +3,6 @@ package br.senai.sc.rpgGenerator.util;
 import br.senai.sc.rpgGenerator.dto.PersonagemDTO;
 import br.senai.sc.rpgGenerator.model.entities.Personagem;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
 

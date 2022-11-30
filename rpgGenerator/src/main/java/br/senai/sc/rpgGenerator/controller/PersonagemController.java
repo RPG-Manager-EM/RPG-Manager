@@ -1,8 +1,10 @@
 package br.senai.sc.rpgGenerator.controller;
 
 import br.senai.sc.rpgGenerator.dto.PersonagemDTO;
+import br.senai.sc.rpgGenerator.model.entities.Campanha;
 import br.senai.sc.rpgGenerator.model.entities.Personagem;
 import br.senai.sc.rpgGenerator.model.entities.Usuario;
+import br.senai.sc.rpgGenerator.model.service.CampanhaService;
 import br.senai.sc.rpgGenerator.model.service.PersonagemService;
 import br.senai.sc.rpgGenerator.model.service.UsuarioService;
 import br.senai.sc.rpgGenerator.util.PersonagemUtil;
@@ -30,6 +32,7 @@ import java.util.List;
 public class PersonagemController {
     private PersonagemService personagemService;
     private UsuarioService usuarioService;
+    private CampanhaService campanhaService;
 
     @GetMapping
     public ResponseEntity<List<Personagem>> findAll() {
@@ -43,6 +46,19 @@ public class PersonagemController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(personagemService.findById(id).get());
+    }
+
+    @GetMapping("/campanha/{id}")
+    public ResponseEntity<List<Personagem>> findByCampanha(@PathVariable(value = "id") Long id) {
+        Campanha campanha = campanhaService.findById(id).get();
+        return ResponseEntity.status(HttpStatus.OK).body(personagemService.findByCampanha(campanha));
+    }
+
+    @GetMapping("/campanha/usuario/{id}/{usuario}")
+    public ResponseEntity<Personagem> findByCampanhaAndUsuario(@PathVariable(value = "id") Long id, @PathVariable(value = "usuario") Long usuarioId) {
+        Campanha campanha = campanhaService.findById(id).get();
+        Usuario usuario = usuarioService.findById(usuarioId);
+        return ResponseEntity.status(HttpStatus.OK).body(personagemService.findByCampanhaAndUsuario(campanha, usuario));
     }
 
     @GetMapping("/usuario/{usuario}")

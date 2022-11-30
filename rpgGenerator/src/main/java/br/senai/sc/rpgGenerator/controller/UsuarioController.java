@@ -7,7 +7,6 @@ import lombok.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,9 +36,6 @@ public class UsuarioController {
     public ResponseEntity<Object> save(@RequestBody @Valid UsuarioDTO usuarioDTO) {
         Usuario usuario = new Usuario();
         BeanUtils.copyProperties(usuarioDTO, usuario);
-
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//        usuario.setSenha(encoder.encode(usuario.getSenha()));
 
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.save(usuario));
     }

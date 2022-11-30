@@ -4,8 +4,6 @@ import br.senai.sc.rpgGenerator.model.entities.Mapa;
 import br.senai.sc.rpgGenerator.model.entities.Usuario;
 import br.senai.sc.rpgGenerator.model.service.MapaService;
 import br.senai.sc.rpgGenerator.model.service.UsuarioService;
-import br.senai.sc.rpgGenerator.util.MapaUtil;
-import br.senai.sc.rpgGenerator.util.UsuarioUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

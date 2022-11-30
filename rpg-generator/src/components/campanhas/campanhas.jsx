@@ -25,7 +25,23 @@ const Campanhas = (props) => {
                 setPersonagem(response[0]);
             }
         });
+
+        buscarPersonagens();
     }, []);
+
+    const buscarPersonagens = () => {
+        let listaNova = [];
+        PersonagemService.getByUsuario(parseInt(localStorage.getItem('userId'))).then((e) => {
+            for(let i = 0; i < e.length; i++) {
+                if(e[i].campanha != null) {
+                    listaNova.push(e[i].campanha);
+                }
+            }
+            setTimeout(() => {
+                setCampanhas(listaNova);
+            }, 10);
+        })
+    }
 
     const handleClickOpen = () => {
         setOpenDialogCampanha(true);
