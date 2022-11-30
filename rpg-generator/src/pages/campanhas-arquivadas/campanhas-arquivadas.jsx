@@ -33,7 +33,6 @@ const CampanhasArquivadas = () => {
                                     <img className="w-full h-full" src={"data:" + campanha.mapa.arquivo.tipo + ";base64," + campanha.mapa.arquivo.dados} alt="Campanha imagem" />
                                 </Box>
                                 <Typography fontSize='22px' color='text.white'>{campanha.nome}</Typography>
-                                <Typography fontSize='22px' color='text.white'>Jogadores: {campanha.personagem.length}</Typography>
                                 <Typography fontSize='22px' color='text.white'>Última Sessão: {campanha.proxima_sessao ? getNovaDataSessao(campanha.proxima_sessao.slice(0, 10).replaceAll("-", "/")) : " A  definir"}</Typography>
                             </Paper>
                         )
