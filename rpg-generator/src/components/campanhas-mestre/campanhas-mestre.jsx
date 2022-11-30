@@ -31,7 +31,6 @@ const CampanhasMestre = () => {
   }
 
   const arquivarCampanha = (campanha) => {
-    console.log("campanha a ser arquivada ", campanha)
     campanha.arquivada = true;
     CampanhaService.put(campanha).then((response) => {
       console.log(response);
@@ -73,11 +72,9 @@ const CampanhasMestre = () => {
                   </Box>
                 }
                 <Typography fontSize='22px' color='text.white'>{campanha.nome}</Typography>
-                {/* <Typography fontSize='22px' color='text.white'>Jogadores: {campanha.personagem.length}</Typography> */}
                 <Typography fontSize='22px' color='text.white'>Prox. Sessão: {campanha.proxima_sessao ? getNovaDataSessao(campanha.proxima_sessao.slice(0, 10).replaceAll("-", "/")) : " A  definir"}</Typography>
               </Paper>
             )
-
           }))
           :
           null}
