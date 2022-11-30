@@ -15,6 +15,8 @@ const Campanhas = (props) => {
     const [listaPersonagens, setListaPersonagens] = useState([]);
     const [personagem, setPersonagem] = useState({});
 
+    const [inputNome, setInputNome] = useState("");
+
     useEffect(() => {
         let params = {};
         params.usuarioId = parseInt(localStorage.getItem("userId"));
@@ -26,14 +28,14 @@ const Campanhas = (props) => {
             }
         });
 
-        buscarPersonagens();
+        buscarCampanhas();
     }, []);
 
-    const buscarPersonagens = () => {
+    const buscarCampanhas = () => {
         let listaNova = [];
         PersonagemService.getByUsuario(parseInt(localStorage.getItem('userId'))).then((e) => {
-            for(let i = 0; i < e.length; i++) {
-                if(e[i].campanha != null) {
+            for (let i = 0; i < e.length; i++) {
+                if (e[i].campanha != null) {
                     listaNova.push(e[i].campanha);
                 }
             }
@@ -59,16 +61,40 @@ const Campanhas = (props) => {
                         setOpenDialogCampanha(false);
                     })
                 })
-            } catch(error) {
-                console.log("erro - "+  error)
+            } catch (error) {
+                console.log("erro - " + error)
             }
+        }
+    }
+
+    const eventoTeclado = (e) => {
+        if (e.key == "Enter") {
+            pesquisaTitulo();
+        }
+    }
+
+    const pesquisaTitulo = () => {
+        if (inputNome != "") {
+            let listaNova = [];
+            PersonagemService.getByUsuario(parseInt(localStorage.getItem('userId'))).then((e) => {
+                for (let i = 0; i < e.length; i++) {
+                    if (e[i].campanha != null && e[i].campanha?.nome?.includes(inputNome)) {
+                        listaNova.push(e[i].campanha);
+                    }
+                }
+                setTimeout(() => {
+                    setCampanhas(listaNova);
+                }, 10);
+            })
+        } else {
+            buscarCampanhas();
         }
     }
 
     return (
         <Box className='mt-6'>
             <Box className='flex justify-between mb-6'>
-                <Box className='px-2 py-1 w-1/3 border outline-none' component='input' placeholder="Buscar campanha" />
+                <Box onKeyDown={(e) => { eventoTeclado(e) }} onBlur={() => { pesquisaTitulo() }} onChange={(e) => { setInputNome(e.target.value) }} value={inputNome} className='px-2 py-1 w-1/3 border outline-none' component='input' placeholder="Buscar campanha" />
                 <Button onClick={handleClickOpen} sx={{ fontWeight: '600' }} color='tertiary' variant="contained" disableElevation>Entrar em campanha</Button>
             </Box>
 

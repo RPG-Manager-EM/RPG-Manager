@@ -50,7 +50,11 @@ public class CampanhaService {
         return campanhaRepository.existsByNomeAndSenha(nome, senha);
     }
 
-    public Object findByNomeAndSenha(String nome, String senha) {
-        return campanhaRepository.findByNomeAndSenha(nome, senha);
+    public List<Campanha> findByUsuarioAndNomeAndArquivada(Usuario usuario, String nome, boolean b) {
+        return campanhaRepository.findByUsuarioAndNomeContainingAndArquivada(usuario, nome, b);
+    }
+
+    public Object findByNomeAndSenhaAndArquivada(String nome, String senha, boolean b) {
+        return campanhaRepository.findByNomeAndSenhaAndArquivada(nome, senha, b);
     }
 }

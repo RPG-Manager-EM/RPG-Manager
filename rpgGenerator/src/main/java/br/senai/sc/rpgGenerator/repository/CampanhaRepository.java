@@ -16,7 +16,9 @@ public interface CampanhaRepository extends JpaRepository<Campanha, Long> {
 
     List<Campanha> findByUsuarioAndArquivada(Usuario usuario, Boolean arquivada);
 
-    Object findByNomeAndSenha(String nome, String senha);
-
     Boolean existsByNomeAndSenha(String nome, String senha);
+
+    List<Campanha> findByUsuarioAndNomeContainingAndArquivada(Usuario usuario, String nome, boolean b);
+
+    Object findByNomeAndSenhaAndArquivada(String nome, String senha, boolean b);
 }

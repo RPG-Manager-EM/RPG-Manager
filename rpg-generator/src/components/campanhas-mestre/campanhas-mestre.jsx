@@ -13,26 +13,43 @@ const CampanhasMestre = () => {
   const [novaSessao, setNovaSessao] = useState("");
   const navigate = useNavigate();
 
+  const [inputNome, setInputNome] = useState("");
+
   useEffect(() => {
-    console.log()
-    getCampanhas();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setCampanhas([]);
   }, []);
 
-  const getCampanhas = () => {
-    CampanhaService.getByAutor(JSON.parse(localStorage.getItem("userId"))).then((response) => {
-      for (let i = 0; i < response.length; i++) {
-        PersonagemService.getByCampanha(response[i].id).then((e) => {
-          response[i].jogadores = e.length;
-          if (response.length - 1 == i) {
-            setTimeout(() => {
-              setCampanhas(response);
-            }, 10);
+  useEffect(() => {
+    if (campanhas.length == 0) {
+      if (inputNome != "") {
+        CampanhaService.getByAutorAndNome(JSON.parse(localStorage.getItem("userId")), inputNome).then((response) => {
+          for (let i = 0; i < response.length; i++) {
+            PersonagemService.getByCampanha(response[i].id).then((e) => {
+              response[i].jogadores = e.length;
+              if (response.length - 1 == i) {
+                setTimeout(() => {
+                  setCampanhas(response);
+                }, 10);
+              }
+            })
+          }
+        })
+      } else {
+        CampanhaService.getByAutor(JSON.parse(localStorage.getItem("userId"))).then((response) => {
+          for (let i = 0; i < response.length; i++) {
+            PersonagemService.getByCampanha(response[i].id).then((e) => {
+              response[i].jogadores = e.length;
+              if (response.length - 1 == i) {
+                setTimeout(() => {
+                  setCampanhas(response);
+                }, 10);
+              }
+            })
           }
         })
       }
-    })
-  }
+    }
+  }, [campanhas])
 
   const handleClickOpen = (campanha) => {
     setOpen(true);
@@ -44,7 +61,6 @@ const CampanhasMestre = () => {
     CampanhaService.put(campanha).then((response) => {
       console.log(response);
       setCampanhas(response);
-      getCampanhas();
     })
   }
 
@@ -53,7 +69,6 @@ const CampanhasMestre = () => {
     CampanhaService.put(campanha).then((response) => {
       console.log(response);
       setCampanhas(response);
-      getCampanhas();
     })
   }
 
@@ -61,10 +76,20 @@ const CampanhasMestre = () => {
     return new Date(data).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
   }
 
+  const eventoTeclado = (e) => {
+    if (e.key == "Enter") {
+      pesquisaTitulo();
+    }
+  }
+
+  const pesquisaTitulo = () => {
+    setCampanhas([]);
+  }
+
   return (
     <Box className='mt-6'>
       <Box className='flex justify-between mb-6'>
-        <Box className='px-2 py-1 w-1/3 border outline-none' component='input' placeholder="Buscar campanha" />
+        <Box onKeyDown={(e) => { eventoTeclado(e) }} onBlur={() => { pesquisaTitulo() }} onChange={(e) => { setInputNome(e.target.value) }} value={inputNome} className='px-2 py-1 w-1/3 border outline-none' component='input' placeholder="Buscar campanha" />
         <Button onClick={() => { navigate("/criar-campanha") }} sx={{ fontWeight: '600' }} color='tertiary' variant="contained" disableElevation>Criar campanha</Button>
       </Box>
 

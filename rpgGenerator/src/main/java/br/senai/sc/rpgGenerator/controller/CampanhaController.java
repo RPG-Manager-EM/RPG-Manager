@@ -52,13 +52,19 @@ public class CampanhaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi possível encontrar a campanha!");
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(campanhaService.findByNomeAndSenha(nome, senha));
+        return ResponseEntity.status(HttpStatus.OK).body(campanhaService.findByNomeAndSenhaAndArquivada(nome, senha, false));
     }
 
     @GetMapping("/usuario/{id}")
     public ResponseEntity<Object> findByUsuario(@PathVariable(value = "id") Long id) {
         Usuario usuario = usuarioService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(campanhaService.findByUsuarioAndArquivada(usuario, false));
+    }
+
+    @GetMapping("/usuario/nome/{id}/{nome}")
+    public ResponseEntity<Object> findByUsuarioAndNome(@PathVariable(value = "id") Long id, @PathVariable(value = "nome") String nome) {
+        Usuario usuario = usuarioService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(campanhaService.findByUsuarioAndNomeAndArquivada(usuario, nome, false));
     }
 
     @GetMapping("/usuario/{id}/arquivadas")

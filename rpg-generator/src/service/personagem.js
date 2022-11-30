@@ -33,6 +33,10 @@ class PersonagemService {
         const data = await axios.get(map + `/usuario/${usuario}`);
         return data.data;
     }
+
+    async getByUsuarioAndTitulo(usuario, titulo) {
+        return (await axios.get(map + `/nome/${usuario}/${titulo}`)).data;
+    }
 }
 
 export default new PersonagemService();

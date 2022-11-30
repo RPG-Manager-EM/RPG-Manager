@@ -59,4 +59,8 @@ public class PersonagemService {
     public Personagem findByCampanhaAndUsuario(Campanha campanha, Usuario usuario) {
         return personagemRepository.findByCampanhaAndUsuario(campanha, usuario);
     }
+
+    public List<Personagem> findByUsuarioAndNome(Usuario usuario, String nome) {
+        return personagemRepository.findByUsuarioAndNomeContaining(usuario, nome);
+    }
 }

@@ -10,6 +10,7 @@ const Personagens = () => {
   const navigate = useNavigate();
 
   const [listaPersonagens, setListaPersonagens] = useState([]);
+  const [inputNome, setInputNome] = useState([]);
 
   useEffect(() => {
     PersonagemService.getByUsuario(parseInt(localStorage.getItem("userId"))).then((response) => {
@@ -17,10 +18,32 @@ const Personagens = () => {
     })
   }, []);
 
+  const buscarTodos = () => {
+    PersonagemService.getByUsuario(parseInt(localStorage.getItem("userId"))).then((response) => {
+      setListaPersonagens(response);
+    })
+  }
+
+  const pesquisaTitulo = () => {
+    if (inputNome != "") {
+      PersonagemService.getByUsuarioAndTitulo(parseInt(localStorage.getItem("userId")), inputNome).then((response) => {
+        setListaPersonagens(response);
+      });
+    } else {
+      buscarTodos();
+    }
+  }
+
+  const eventoTeclado = (e) => {
+    if (e.key == "Enter") {
+      pesquisaTitulo();
+    }
+  }
+
   return (
     <Box className='mt-6'>
       <Box className='w-full flex justify-between' sx={{ marginBottom: '16px' }} >
-        <Box className='px-2 py-1 w-1/3 border outline-none' component='input' placeholder="Buscar personagem" />
+        <Box onKeyDown={(e) => { eventoTeclado(e) }} onBlur={() => { pesquisaTitulo() }} onChange={(e) => { setInputNome(e.target.value) }} value={inputNome} className='px-2 py-1 w-1/3 border outline-none' component='input' placeholder="Buscar personagem" />
         <Button onClick={() => navigate("/criar-personagem")} variant='contained' color='tertiary' disableElevation>Novo Personagem</Button>
       </Box>
 

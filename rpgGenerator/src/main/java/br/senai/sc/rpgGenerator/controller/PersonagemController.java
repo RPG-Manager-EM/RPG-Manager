@@ -61,6 +61,12 @@ public class PersonagemController {
         return ResponseEntity.status(HttpStatus.OK).body(personagemService.findByCampanhaAndUsuario(campanha, usuario));
     }
 
+    @GetMapping("/nome/{usuario}/{nome}")
+    public ResponseEntity<List<Personagem>> findByUsuarioAndNome(@PathVariable(value = "usuario") Long usuarioId, @PathVariable(value = "nome") String nome) {
+        Usuario usuario = usuarioService.findById(usuarioId);
+        return ResponseEntity.status(HttpStatus.OK).body(personagemService.findByUsuarioAndNome(usuario, nome));
+    }
+
     @GetMapping("/usuario/{usuario}")
     public ResponseEntity<List<Personagem>> findByUsuario(@PathVariable(value = "usuario") Long usuarioId){
         Usuario usuario = usuarioService.findById(usuarioId);

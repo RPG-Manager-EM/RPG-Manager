@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 
 import { Box, Button, Divider, IconButton, Typography } from '@mui/material'
+import { useNavigate } from 'react-router-dom';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -20,6 +21,7 @@ const CriarPersonagem = () => {
     const [mapAbleFileList, setMapAbleFileList] = useState([]);
 
     const inputFile = useRef(null);
+    const navigate = useNavigate();
 
     const savePersonagem = () => {
         console.log("nome: ", nome);
@@ -30,7 +32,7 @@ const CriarPersonagem = () => {
         const idUser = JSON.parse(localStorage.getItem("userId"));
         console.log("iduser: ", idUser)
         PersonagemService.post({ nome, vida, mana, nivel, usuario: { id: idUser } }, fileList).then((response) => {
-            console.log(response);
+            navigate('/home');
         })
     }
 

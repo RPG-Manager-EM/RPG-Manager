@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 
+import { useNavigate } from 'react-router-dom';
 import MapaService from '../../service/mapa.js';
 import SistemaService from '../../service/sistema.js';
 import CampanhaService from '../../service/campanha.js';
@@ -22,6 +23,8 @@ const CriarCampanha = () => {
     const [mapas, setMapas] = useState([]);
     const [mapasSalvos, setMapasSalvos] = useState([]);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         MapaService.getByUser(parseInt(localStorage.getItem('userId'))).then((response) => {
             setMapas(response.data);
@@ -41,11 +44,11 @@ const CriarCampanha = () => {
             logo,
             mapa
         }).then((response) => {
-            console.log("response: ", response);
             setNome("");
             setDescricao("");
             setMapa("");
             setImagem(UploadArquivoCinza);
+            navigate('/home');
         });
     }
 

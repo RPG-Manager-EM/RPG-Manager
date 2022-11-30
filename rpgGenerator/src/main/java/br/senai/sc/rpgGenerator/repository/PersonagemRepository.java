@@ -23,4 +23,6 @@ public interface PersonagemRepository extends JpaRepository<Personagem, Long> {
     List<Personagem> findByCampanha(Campanha campanha);
 
     Personagem findByCampanhaAndUsuario(Campanha campanha, Usuario usuario);
+
+    List<Personagem> findByUsuarioAndNomeContaining(Usuario usuario, String nome);
 }

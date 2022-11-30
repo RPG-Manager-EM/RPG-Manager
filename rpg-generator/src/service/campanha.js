@@ -12,6 +12,10 @@ class CampanhaService {
         return (await axios.get(map + "/usuario/" + id)).data;
     }
 
+    async getByAutorAndNome(id, nome) {
+        return (await axios.get(map + `/usuario/nome/${id}/${nome}`)).data;
+    }
+
     async getAllArquivadas(id) {
         return (await axios.get(map + "/usuario/" + id + "/arquivadas")).data;
     }
