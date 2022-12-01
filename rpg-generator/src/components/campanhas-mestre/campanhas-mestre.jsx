@@ -59,16 +59,14 @@ const CampanhasMestre = () => {
   const arquivarCampanha = (campanha) => {
     campanha.arquivada = true;
     CampanhaService.put(campanha).then((response) => {
-      console.log(response);
-      setCampanhas(response);
+      setCampanhas([]);
     })
   }
 
   const addNovaSessao = (campanha) => {
     campanha.proxima_sessao = novaSessao;
     CampanhaService.put(campanha).then((response) => {
-      console.log(response);
-      setCampanhas(response);
+      setCampanhas([]);
     })
   }
 

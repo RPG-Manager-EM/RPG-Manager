@@ -103,18 +103,12 @@ public class CampanhaController {
                                          @RequestParam("campanha") String campanhaJson,
                                          @RequestParam("logo") String idLogo,
                                          @RequestParam("mapa") Mapa mapa) {
-        System.out.println("chegou aq");
         if (!campanhaService.existsById(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Esta campanha não existe.");
         }
 
-        System.out.println("id: " + id);
-        System.out.println("campanhaJson: " + campanhaJson);
-        System.out.println("idlogo: " + idLogo);
-
         CampanhaUtil campanhaUtil = new CampanhaUtil();
         Campanha campanha = campanhaUtil.convertJsonToFullModel(campanhaJson);
-        System.out.println("dpois");
         Optional<Imagem> imagem = imagemService.findById(Long.parseLong(idLogo));
 
         campanha.setImagemExistente(imagem.get());
